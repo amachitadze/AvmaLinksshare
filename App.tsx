@@ -118,11 +118,15 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        if (user) {
+        if (user && user.token) {
             setIsLoading(true);
             setSyncStatus('idle');
             try {
-                const response = await fetch('/.netlify/functions/links');
+                const response = await fetch('/.netlify/functions/links', {
+                    headers: {
+                        Authorization: `Bearer ${user.token.access_token}`,
+                    }
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setLinkData(data);
@@ -155,12 +159,15 @@ const App: React.FC = () => {
     }
 
     const saveData = async () => {
-        if (user) {
+        if (user && user.token) {
             setSyncStatus('syncing');
             try {
                 const response = await fetch('/.netlify/functions/links', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${user.token.access_token}`,
+                    },
                     body: JSON.stringify(linkData),
                 });
                 if (response.ok) {
