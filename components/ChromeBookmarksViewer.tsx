@@ -186,6 +186,8 @@ const ChromeBookmarksViewer: React.FC<ChromeBookmarksViewerProps> = ({ viewMode,
               category={category}
               viewMode={viewMode}
               onShowActionMenu={dummyAction}
+              // FIX: Added missing 'isEditable' prop. The bookmarks viewer is read-only.
+              isEditable={false}
               isMoveMode={false} // No moving allowed
               draggedItemId={null}
               onDragStart={dummyAction}

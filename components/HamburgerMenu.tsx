@@ -57,7 +57,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
       {isOpen && (
         <div className="absolute right-0 mt-2 w-56 bg-surface-container-light dark:bg-surface-container-dark rounded-lg shadow-xl border border-outline-variant-light dark:border-outline-variant-dark z-50 py-2">
           <ul>
-            {user && (
+            {user ? (
               <>
                 <li className="px-4 pt-2 pb-1 text-xs text-on-surface-variant-light dark:text-on-surface-variant-dark">
                   Signed in as:
@@ -66,71 +66,69 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
                   {user.email}
                 </li>
                 <li className="my-1 h-px bg-outline-variant-light dark:bg-outline-variant-dark" />
-              </>
-            )}
-            {showInstallButton && (
-              <>
+                {showInstallButton && (
+                  <>
+                    <li>
+                      <button
+                        onClick={() => { onInstall(); setIsOpen(false); }}
+                        className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
+                      >
+                        <Icon name="install" className="w-5 h-5 mr-3" />
+                        <span>Install App</span>
+                      </button>
+                    </li>
+                    <li className="my-1 h-px bg-outline-variant-light dark:bg-outline-variant-dark mx-2" />
+                  </>
+                )}
                 <li>
                   <button
-                    onClick={() => { onInstall(); setIsOpen(false); }}
+                    onClick={() => { onToggleMoveMode(); setIsOpen(false); }}
                     className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
                   >
-                    <Icon name="install" className="w-5 h-5 mr-3" />
-                    <span>Install App</span>
+                    <Icon name="move" className="w-5 h-5 mr-3" />
+                    <span>Reorder Layout</span>
                   </button>
                 </li>
                 <li className="my-1 h-px bg-outline-variant-light dark:bg-outline-variant-dark mx-2" />
+                <li>
+                  <button
+                    onClick={() => { onImport(); setIsOpen(false); }}
+                    className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
+                  >
+                    <Icon name="upload" className="w-5 h-5 mr-3" />
+                    <span>Import Data</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => { onExport(); setIsOpen(false); }}
+                    className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
+                  >
+                    <Icon name="download" className="w-5 h-5 mr-3" />
+                    <span>Export Data</span>
+                  </button>
+                </li>
+                <li className="my-1 h-px bg-outline-variant-light dark:bg-outline-variant-dark mx-2" />
+                <li>
+                  <button
+                    onClick={() => { onImportChrome(); setIsOpen(false); }}
+                    className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
+                  >
+                    <Icon name="chrome" className="w-5 h-5 mr-3" />
+                    <span>Import from Chrome</span>
+                  </button>
+                </li>
+                <li className="my-1 h-px bg-outline-variant-light dark:bg-outline-variant-dark" />
+                <li>
+                  <button
+                    onClick={() => { onLogout(); setIsOpen(false); }}
+                    className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
+                  >
+                    <Icon name="logout" className="w-5 h-5 mr-3" />
+                    <span>Logout</span>
+                  </button>
+                </li>
               </>
-            )}
-            <li>
-              <button
-                onClick={() => { onToggleMoveMode(); setIsOpen(false); }}
-                className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
-              >
-                <Icon name="move" className="w-5 h-5 mr-3" />
-                <span>Reorder Layout</span>
-              </button>
-            </li>
-            <li className="my-1 h-px bg-outline-variant-light dark:bg-outline-variant-dark mx-2" />
-            <li>
-              <button
-                onClick={() => { onImport(); setIsOpen(false); }}
-                className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
-              >
-                <Icon name="upload" className="w-5 h-5 mr-3" />
-                <span>Import Data</span>
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => { onExport(); setIsOpen(false); }}
-                className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
-              >
-                <Icon name="download" className="w-5 h-5 mr-3" />
-                <span>Export Data</span>
-              </button>
-            </li>
-            <li className="my-1 h-px bg-outline-variant-light dark:bg-outline-variant-dark mx-2" />
-            <li>
-              <button
-                onClick={() => { onImportChrome(); setIsOpen(false); }}
-                className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
-              >
-                <Icon name="chrome" className="w-5 h-5 mr-3" />
-                <span>Import from Chrome</span>
-              </button>
-            </li>
-            <li className="my-1 h-px bg-outline-variant-light dark:bg-outline-variant-dark" />
-            {user ? (
-              <li>
-                <button
-                  onClick={() => { onLogout(); setIsOpen(false); }}
-                  className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
-                >
-                  <Icon name="logout" className="w-5 h-5 mr-3" />
-                  <span>Logout</span>
-                </button>
-              </li>
             ) : (
               <li>
                 <button

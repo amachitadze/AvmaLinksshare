@@ -5,6 +5,7 @@ interface LinkCardProps {
   link: LinkItem;
   viewMode: 'grid' | 'list';
   onShowActionMenu: (link: LinkItem, categoryTitle: string) => void;
+  isEditable: boolean;
   isMoveMode: boolean;
   categoryTitle: string;
   draggedItemId: string | null;
@@ -33,6 +34,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
   link, 
   viewMode, 
   onShowActionMenu,
+  isEditable,
   isMoveMode, 
   categoryTitle, 
   draggedItemId, 
@@ -51,7 +53,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
 
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
-    if (!isMoveMode) {
+    if (!isMoveMode && isEditable) {
       onShowActionMenu(link, categoryTitle);
     }
   };
@@ -62,7 +64,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setIsOver(false);
-    if (!isMoveMode) return;
+    if (!isMoveMode || !isEditable) return;
 
     const type = e.dataTransfer.getData('type');
     const sourceLinkId = e.dataTransfer.getData('sourceLinkId');
@@ -74,7 +76,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    if (isMoveMode) {
+    if (isMoveMode && isEditable) {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -82,7 +84,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
      e.stopPropagation();
-     if (isMoveMode && !isBeingDragged) {
+     if (isMoveMode && isEditable && !isBeingDragged) {
        setIsOver(true);
      }
   };
@@ -93,9 +95,9 @@ const LinkCard: React.FC<LinkCardProps> = ({
   };
 
   const sharedDragProps = {
-    draggable: isMoveMode,
+    draggable: isMoveMode && isEditable,
     onDragStart: (e: React.DragEvent<HTMLDivElement>) => {
-      if (!isMoveMode) return;
+      if (!isMoveMode || !isEditable) return;
       e.stopPropagation();
       e.dataTransfer.setData('type', 'link');
       e.dataTransfer.setData('sourceLinkId', link.id);
@@ -116,7 +118,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
     relative
     ${isBeingDragged ? 'opacity-40' : ''}
     ${isOver ? 'ring-2 ring-primary-light dark:ring-primary-dark rounded-2xl' : ''}
-    ${isMoveMode ? 'cursor-grab' : ''}
+    ${isMoveMode && isEditable ? 'cursor-grab' : ''}
   `;
 
   const gridViewLinkClasses = `

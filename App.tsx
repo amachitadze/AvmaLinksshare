@@ -250,7 +250,10 @@ const App: React.FC = () => {
 
   const allCategoryTitles = useMemo(() => linkData.map(c => c.title), [linkData]);
 
-  const handleAddLinkClick = () => setModalState({ isOpen: true, mode: 'add' });
+  const handleAddLinkClick = () => {
+    if (!user) return;
+    setModalState({ isOpen: true, mode: 'add' });
+  }
   const handleEditLink = (link: LinkItem, categoryTitle: string) => setModalState({ isOpen: true, mode: 'edit', link, categoryTitle });
   const handleDeleteLink = (link: LinkItem) => setConfirmDeleteModalState({ isOpen: true, linkToDelete: link });
 
@@ -406,6 +409,7 @@ const App: React.FC = () => {
   };
   
   const handleShowActionMenu = (link: LinkItem, categoryTitle: string) => {
+    if (!user) return;
     setActionMenuState({ isOpen: true, link, categoryTitle });
   };
   
@@ -439,6 +443,7 @@ const App: React.FC = () => {
   };
   
   const handleToggleMoveMode = () => {
+    if (!user) return;
     if (isMoveMode) {
       handleCancelMove();
     } else {
@@ -449,6 +454,7 @@ const App: React.FC = () => {
 
   const isSearchActive = searchQuery.length > 0;
   const displayData = isSearchActive ? filteredLinkData : linkData;
+  const isEditable = !!user;
 
   if (isLoading) {
     return (
@@ -495,6 +501,7 @@ const App: React.FC = () => {
                     category={category}
                     viewMode={viewMode}
                     onShowActionMenu={handleShowActionMenu}
+                    isEditable={isEditable}
                     isMoveMode={isMoveMode && !isSearchActive}
                     draggedItemId={draggedItemId}
                     onDragStart={handleDragStart}
@@ -523,7 +530,7 @@ const App: React.FC = () => {
         )}
       </main>
 
-      {!isMoveMode && currentView === 'main' && <AddLinkFab onClick={handleAddLinkClick} />}
+      {user && !isMoveMode && currentView === 'main' && <AddLinkFab onClick={handleAddLinkClick} />}
       {isMoveMode && <MoveModeControls onSave={handleSaveMove} onCancel={handleCancelMove} />}
       
       <input type="file" ref={fileInputRef} onChange={onFileChange} accept=".json" className="hidden" />
