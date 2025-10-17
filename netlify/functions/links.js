@@ -1,7 +1,7 @@
 // This is a Netlify serverless function.
 // It handles fetching and saving user link data to Netlify Blob Storage.
 
-import { getStore } from "@netlify/blobs";
+const { getStore } = require("@netlify/blobs");
 
 const handler = async (event, context) => {
   // Ensure the user is authenticated.
@@ -64,4 +64,4 @@ const handler = async (event, context) => {
   };
 };
 
-export { handler };
+module.exports = { handler };

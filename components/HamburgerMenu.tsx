@@ -130,15 +130,28 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
                 </li>
               </>
             ) : (
-              <li>
-                <button
-                  onClick={() => { onLogin(); setIsOpen(false); }}
-                  className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
-                >
-                  <Icon name="login" className="w-5 h-5 mr-3" />
-                  <span>Login / Sign Up</span>
-                </button>
-              </li>
+              <>
+                {showInstallButton && (
+                  <li>
+                    <button
+                      onClick={() => { onInstall(); setIsOpen(false); }}
+                      className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
+                    >
+                      <Icon name="install" className="w-5 h-5 mr-3" />
+                      <span>Install App</span>
+                    </button>
+                  </li>
+                )}
+                <li>
+                  <button
+                    onClick={() => { onLogin(); setIsOpen(false); }}
+                    className="w-full flex items-center px-4 py-2 text-sm text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-high-light dark:hover:bg-surface-container-high-dark"
+                  >
+                    <Icon name="login" className="w-5 h-5 mr-3" />
+                    <span>Login / Sign Up</span>
+                  </button>
+                </li>
+              </>
             )}
           </ul>
         </div>
